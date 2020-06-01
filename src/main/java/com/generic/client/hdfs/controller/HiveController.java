@@ -18,21 +18,18 @@ public class HiveController {
     private static final Logger LOGGER = LoggerFactory.getLogger(HiveController.class);
 
     @PostMapping("/create")
-    public String createTable(@RequestBody HiveSchema hs) {
+    public String createTable(@RequestBody HiveSchema hs) throws Exception {
         LOGGER.info("Hive Create Table Invoked for table name :: " + hs.getTable_name());
 
         return service.createTable(hs);
     }
 
     @PostMapping("/upload-csv-file")
-    public String uploadCSVFile(@RequestParam("file") MultipartFile multiFile, @RequestParam("TableName") String tableName) {
+    public String uploadCSVFile(@RequestParam(value = "file", required = true) MultipartFile multiFile, @RequestParam(value = "TableName", required = true) String tableName) throws Exception {
         String result = null;
-        // validate file
-        if (multiFile.isEmpty()) {
-
-        } else {
-            result = service.loadHiveData(multiFile, tableName);
-        }
+        LOGGER.info("Uploading table data for table :: " + tableName);
+        String fileName = multiFile.getOriginalFilename();
+        result = service.loadHiveData(multiFile, tableName);
         return result;
     }
 

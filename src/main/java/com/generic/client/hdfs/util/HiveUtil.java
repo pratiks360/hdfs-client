@@ -34,7 +34,7 @@ public class HiveUtil {
                 sb.append(", ");
             }
         }
-        sb.append(") LOCATION ");
+        sb.append(",String batch_id) LOCATION ");
         sb.append(hs.getLocation());
 
         return sb.toString();
